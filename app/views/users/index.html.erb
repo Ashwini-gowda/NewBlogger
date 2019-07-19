@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Users</h1>
+<div class="container">
+  <nav class="navbar navbar-expand-sm">
+    <ul class="navbar-nav">
+  <li class="nav-item">
+    <div class="row">
+      <div class="col-2">
+    <%= link_to "Articles", articles_path %></div>
+    <div class="col-2"><%= link_to "Comments", comments_path %></div>
+    <div class="col-2"><%= link_to "Category", categories_path %></div>
+    <div class="col-3"><%= link_to "Sub Category", sub_categories_path %></div>
+   <div class="col-3"><%= link_to '+New User', new_user_path %></div></div>
+  </li>
+</ul>
+</nav>
+
+</div>
+<br>
+
+
+
+<div class="container-fluid">
+<table border>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Fullname</th>
+      <th>Contactnumber</th>
+      <th>UserName</th>
+      <th>Role</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.fullname %></td>
+        <td><%= user.contactNumber %></td>
+        <td><%= user.username %></td>
+        <td><%= user.role %></td>
+        <td><%= link_to 'Show', user %></td>
+        <td><%= link_to 'Edit', edit_user_path(user) %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+<br>
+

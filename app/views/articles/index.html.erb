@@ -1,0 +1,91 @@
+<p id="notice"><%= notice %></p>
+
+<h3><center>Articles</center></h3>
+<div class="container">
+  <%= link_to '+New Article', new_article_path, class: 'float-right btn btn-info btn-sm mb-2' %>
+   <%= form_tag articles_path, method: :get, id: "searchForm", class: "nav-search col-md-12 mr-3 pl-0 pr-0 mb-3 d-flex" do %>
+      <%= text_field_tag :query_text, params[:query_text], placeholder: "Search by Title, Author...", class: "form-control",
+        'role': "combobox", "aria-autocomplete": "list", "aria-expanded": false, 'dir': "auto", 'type': "search" %>
+        <div class="search-submit">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </div>
+    <% end %>     
+</div>
+
+<% @articles.each do |article| %>
+  <div class="container-fluid border mb-3">
+    <div class="row">
+      <div class="col-12">
+        <% img_url = article.image_path || "No_Image_Available.jpg" %>
+        <%= image_tag img_url, height: "30%", width: "30%", alt: "No Image" %></b><br>
+        <label><b>Title :</label><%= article.title.upcase %></b><br>
+        <label><b>Author :</label><%= article.author %></b><br>
+
+        <div class="text-justify">
+          <label>Content :</label>
+          <div class="hidden" id="fulltext_<%= article.id %>" >
+            <%= article.content %> 
+            <div class="seeless text-success" data-id="<%= article.id %>" >Read less</div>
+          </div>
+          <div class="truncate_<%= article.id %>" >
+            <%= truncate(article.content, length: 300) %>
+            <% if article.content.size > 300 %>
+              <div class="seemore text-success" data-id="<%= article.id %>">Read more
+              </div>
+            <% end %>
+          </div>
+          <div class="small comment-meta float-right">
+           <div class="text-grey"><%= article.created_at.strftime('%d %b %Y, %I:%M %p') %></div>
+        </div>
+        </div>
+       
+        <div class="col-12">
+        <div class="float-right">
+          <div class="text-grey">
+          <%= link_to 'Show', article, class: "btn btn-info btn-sm" %>
+          <%= link_to 'Edit', edit_article_path(article), class: "btn btn-info btn-sm" %>
+          <%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-info btn-sm" %></div>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<div class="pagination justify-content-end">
+    <%= paginate @articles, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm " %> 
+</div>
+
+  <script type="text/javascript">
+  $(".seemore").click(function(){
+   var article_id = $(this).data("id");
+    $(".truncate_"+article_id).addClass("hidden");
+    console.log("seemore");
+    $("#fulltext_"+article_id).removeClass("hidden");
+  });
+
+  $(".seeless").click(function(){
+    var article_id = $(this).data("id");
+    $(".truncate_"+article_id).removeClass("hidden");
+    console.log("seeless");
+    $("#fulltext_"+article_id).addClass("hidden");
+  });
+  
+  $("#query_text").autocomplete({
+    minLength: 1,
+    source: "<%= auto_suggest_articles_path %>",
+    select: function(event, ui) {
+      $("#query_text").val(ui.item.title_with_author);
+      $("#searchForm").submit();
+      return false;
+    }
+  }).data("ui-autocomplete")._renderItem = function(ul,item) {
+    return $("<li class='list-group-item list-group-item-primary'></li>")
+    .data("item.autocomplete",item) 
+    .append("<a>"+item.title_with_author+"</a>")
+    .appendTo(ul);
+  }
+  
+  </script>
+
+

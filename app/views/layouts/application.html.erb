@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NewBlogger</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  </head>
+
+  <body>
+    <div class="container container-main">
+      <div class='container-fluid'>
+        <% if notice %>
+          <div id="mainNotice" class="row alert alert-primary rounded">
+            <center><%= notice %></center>
+          </div>
+        <% end %>
+        <% if alert %>
+          <div id="mainError" class="row alert alert-danger rounded">
+            <center><%= alert %></center>
+          </div>
+        <% end %>
+      </div>
+      
+      <%= yield %>
+    </div>
+  </body>
+</html>

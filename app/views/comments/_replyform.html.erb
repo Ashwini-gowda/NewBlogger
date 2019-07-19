@@ -1,0 +1,5 @@
+<%= simple_form_for [@article, Comment.new] do |f| %>
+  <%= f.text_area :content, placeholder: "Add a Reply", class: "form-control" %>
+  <%= f.submit "Reply", class: "float-right" %> 
+<% end %>  
+
