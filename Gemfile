@@ -49,6 +49,11 @@ gem 'mini_magick'
 
 gem 'kaminari'
 gem 'bootstrap4-kaminari-views'
+
+gem 'ckeditor', github: 'galetahub/ckeditor'
+gem 'paperclip'
+gem 'dragonfly'
+gem 'fog'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

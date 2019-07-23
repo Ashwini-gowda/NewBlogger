@@ -1,14 +1,16 @@
 
 <%= simple_form_for(@user) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
+  
   <div class="form-inputs">
     <%= f.input :email %>
     <%= f.input :fullname %>
     <%= f.input :contactNumber %>
     <%= f.input :username %>
-    <%= f.input :role %>
+
+  <div class="form-group" >
+    <%= f.label :user_type %>
+    <%= f.select :role,([['User', 'user'], ['Admin', 'admin'], ['Editor', 'editor']]), {:include_blank => 'Select user_type'}, class:'form-control' %>
+  </div>
   </div>
 
   <div class="form-actions">

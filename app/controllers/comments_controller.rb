@@ -1,10 +1,10 @@
 class CommentsController < ApplicationController
-
+  before_action :authenticate_user!
   before_action  :find_commentable, :set_comment, only: [:show, :edit, :update, :destroy, :reply]
 
 
   def index
-    @comments = Comment.all
+    @comments = @commentable.comments
   end
 
   def show
@@ -18,18 +18,18 @@ class CommentsController < ApplicationController
   def edit
   end
 
-  def reply
-    @comment = @commentable.comments.new(comment_params)
-    if @comment.save
-      redirect_to article_url(@article), notice: 'Reply was successfully done.'
-    else
-      render :new
-    end
-  end
+  #def reply
+    #@comment = @commentable.comments.new(comment_params)
+    #if @comment.save
+      #redirect_to article_url(@article), notice: 'Reply was successfully done.'
+    #else
+      #render :new
+    #end
+  #end
 
   def create
     @article = Article.find(params[:article_id])
-    #@comment = @commentable.comments.new(comment_params)
+   #@comment = @commentable.comments.new(comment_params)
     @comment = @article.comments.new(comment_params)
     @comment.user_id = current_user.id
     if @comment.save
@@ -53,12 +53,10 @@ class CommentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_comment
       @comment = Comment.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
       params.require(:comment).permit(:content, :commentable_id, :commentable_type, :user_id)
     end

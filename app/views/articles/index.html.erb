@@ -24,51 +24,47 @@
         <div class="text-justify">
           <label>Content :</label>
           <div class="hidden" id="fulltext_<%= article.id %>" >
-            <%= article.content %> 
-            <div class="seeless text-success" data-id="<%= article.id %>" >Read less</div>
-          </div>
-          <div class="truncate_<%= article.id %>" >
+            <%= article.content %> </div>
+            <div class="seeless text-success" id="<%= article.id %>" >Read less</div>
+          <div id="truncate_<%= article.id %>" >
             <%= truncate(article.content, length: 300) %>
             <% if article.content.size > 300 %>
-              <div class="seemore text-success" data-id="<%= article.id %>">Read more
-              </div>
+              <div class="seemore text-success" id="<%= article.id %>" >Read more</div></div>
             <% end %>
           </div>
           <div class="small comment-meta float-right">
-           <div class="text-grey"><%= article.created_at.strftime('%d %b %Y, %I:%M %p') %></div>
-        </div>
-        </div>
-       
+            <div class="text-grey"><%= article.created_at.strftime('%d %b %Y, %I:%M %p') %></div>
+          </div>
         <div class="col-12">
-        <div class="float-right">
-          <div class="text-grey">
-          <%= link_to 'Show', article, class: "btn btn-info btn-sm" %>
-          <%= link_to 'Edit', edit_article_path(article), class: "btn btn-info btn-sm" %>
-          <%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-info btn-sm" %></div>
+          <div class="float-right">
+            <div class="text-grey">
+              <%= link_to 'Show', article, class: "btn btn-info btn-sm" %>
+              <% if current_user.admin? %><%= link_to 'Edit',edit_article_path(article), class: "btn btn-info btn-sm" %>
+              <% end %>
+              <%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-info btn-sm" %>
+            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
   </div>
-</div>
 <% end %>
 
 <div class="pagination justify-content-end">
     <%= paginate @articles, theme: 'twitter-bootstrap-4', pagination_class: "pagination-sm " %> 
 </div>
 
-  <script type="text/javascript">
+<script type="text/javascript">
   $(".seemore").click(function(){
-   var article_id = $(this).data("id");
-    $(".truncate_"+article_id).addClass("hidden");
-    console.log("seemore");
-    $("#fulltext_"+article_id).removeClass("hidden");
+    var article_id = $(this).attr("id");
+    $("#truncate_"+article_id).hide();
+    $("#fulltext_"+article_id).show();
   });
 
   $(".seeless").click(function(){
-    var article_id = $(this).data("id");
-    $(".truncate_"+article_id).removeClass("hidden");
-    console.log("seeless");
-    $("#fulltext_"+article_id).addClass("hidden");
+    var article_id = $(this).attr("id");
+    $("#truncate_"+article_id).show();
+    $("#fulltext_"+article_id).hide();
   });
   
   $("#query_text").autocomplete({
@@ -85,7 +81,7 @@
     .append("<a>"+item.title_with_author+"</a>")
     .appendTo(ul);
   }
-  
-  </script>
+
+</script>
 
 

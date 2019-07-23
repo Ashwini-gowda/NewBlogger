@@ -6,8 +6,8 @@ class Article < ApplicationRecord
   belongs_to :user
  
 
-  accepts_nested_attributes_for :sub_categories, :allow_destroy => false
-  #accepts_nested_attributes_for :users, :allow_destroy => false
+  accepts_nested_attributes_for :sub_categories
+  #accepts_nested_attributes_for :users
   
   searchkick searchable: [:title, :author],
              text_middle: [:title, :author]

@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_article, only: [:show, :edit, :update, :destroy]
 
   def auto_suggest
@@ -24,7 +25,7 @@ class ArticlesController < ApplicationController
 
   def show
     @comments = @article.comments
-    #@sub_categories = @article.sub_categories
+    @sub_categories = @article.sub_categories
     #@users = @article.users
   end
 
